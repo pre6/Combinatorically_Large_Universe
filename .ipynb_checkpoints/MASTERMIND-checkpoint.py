@@ -37,16 +37,14 @@ def Beginning():
 '''
 2a: Computer Chooses Code with possible Duplicates
 '''
-def choose_code(max_number, code_length):
-    
-    Num_Total = list(range(1, max_number + 1))
-    # this is the number of the numbers available to use.
+def choose_code():
+    Num_Total = [1,2,3,4,5,6]
     Code = ''
-    
-    for _ in range(code_length):
-        Code += str(random.choice(Num_Total))
-        # this randomly pick a number from the total available numbers\
-    
+    i = 0
+    while i in range(4):
+        #Code.append(random.choice(Num_Total))
+        Code = Code + str(random.choice(Num_Total))
+        i += 1
     return Code
 
 
@@ -65,17 +63,17 @@ def display_guess(guess_code):
 
 '''
 
-def Guess(total_guesses,max_num_of_guesses,max_number,code_length):
+def Guess(total_guesses):
     Guess = ''
     y = False
-    while not(len(Guess)==code_length and y):  
+    while not(len(Guess)==4 and y):  
         print('Numbers to Choose from: ')
-        print(f"1 to {max_number}")
+        print('1 2 3 4 5 6\n')
 
         g = []
         Guess = input('Please Enter Your Guess: ')
-        if len(Guess) != code_length:
-            print('You entered a code that is not the right length')
+        if len(Guess) != 4:
+            print('You entered a code that is not 4 digits long')
             print('Please Try Again')
         for item in Guess:
             g.append(item)
@@ -96,12 +94,12 @@ def Guess(total_guesses,max_num_of_guesses,max_number,code_length):
 check for doubles    
 '''
 
-def Clues(code,guess,code_length):
+def Clues(code,guess):
     print("Take another Guess! \n")
     circle = ''
     check_mark = ''
     i = 0
-    while i in range(code_length):
+    while i in range(4):
         if code[i] == guess[i]:
             check_mark = check_mark + '● '
             code = code.replace(code[i], ' ',1)
@@ -135,27 +133,18 @@ def play_game():
     print("Let's get started! \n")
 
     print("Hmmm... I am thinking of a code \n")
-
-
-    # Ask the user for the number of numbers they can select from
-    max_number = int(input("Enter the number of numbers you can select from (e.g., 6 for numbers 1-6): "))
-
-    # Ask the user for the length of the code
-    code_length = int(input("Enter the length of the code: "))
-
-    max_num_of_guesses = int(input("Enter the length of the code: "))
-    code = choose_code(max_number,code_length)
+    code = choose_code()
     print(code)
 
     print('Ok! I got one.\n')
  
     guess_num = 0
-    while guess_num < max_num_of_guesses:        
-        guess = Guess(total_guesses,max_num_of_guesses,max_number,code_length)
-        clue = Clues(guess[0],code,code_length)
+    while guess_num < 12:        
+        guess = Guess(total_guesses)
+        clue = Clues(guess[0],code)
         total_guesses[guess[1]] = clue
         guess_num += 1
-        if clue == ' '.join(['● '] * code_length) :
+        if clue == '● ● ● ● ':
             print('Congratulations That was my code')
           
             display_guess(total_guesses)
@@ -166,12 +155,12 @@ def play_game():
             print("Here are your previous Guesses and clues: \n")
             display_guess(total_guesses)
         
-            print('You have ', max_num_of_guesses - guess_num, " guesses left \n")
+            print('You have ', 12 - guess_num, " guesses left \n")
        
             
             continue
 
-    if not(clue == ' '.join(['● '] * max_num_of_guesses)):
+    if not(clue == '● ● ● ● '):
         print('You ran out of guesses')
         print('My code was: ', code)
 
